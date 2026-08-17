@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="آرشیو موسیقی و شعر فارسی - گوش دادن به آلبوم‌ها همراه با متن اشعار" />
+    <title>خانه | MySite</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__wrapper">
+
+            <!-- لوگو -->
+            <div class="logo">
+                <a href="index.html">My<span>Site</span></a>
+            </div>
+
+            <!-- منوی اصلی -->
+            <nav class="nav" id="mainNav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link active">خانه</a></li>
+                    <li class="nav__item"><a href="about.html" class="nav__link">درباره ما</a></li>
+                    <li class="nav__item dropdown">
+                        <a href="#" class="nav__link dropdown__toggle">
+                            نمونه کارها <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown__menu">
+                            <li><a href="metalwork.html">قلم زنی</a></li>
+                            <li><a href="calligraphy.html">خوشنویسی</a></li>
+                            <li><a href="painting.html">نقاشی</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav__item"><a href="music.html" class="nav__link">فایل های صوتی</a></li>
+                    <li class="nav__item"><a href="contact.html" class="nav__link">تماس با ما</a></li>
+                </ul>
+            </nav>
+
+            <!-- دکمه همبرگری (موبایل) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="منو">
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+            </button>
+
+        </div>
+    </header>
+
+    <!-- ====== محتوای اصلی ====== -->
+    <main>
+        <!-- بخش هیرو -->
+        <section class="hero">
+            <div class="container hero__content">
+                <p class="hero__eyebrow">این‌جا صدا و کلمه با هم می‌رسند</p>
+                <div class="hero__verse">
+                    <span class="hero__verse-line">بشنو از نی چون حکایت می‌کند</span>
+                    <span class="hero__verse-line">از جدایی‌ها شکایت می‌کند</span>
+                </div>
+                <p class="hero__attribution">مولانا، مثنوی معنوی</p>
+                <p>
+                    مجموعه‌ای از آلبوم‌های صوتی همراه با متن کامل اشعار؛ جایی برای گوش‌دادن و همزمان
+                    خواندن کلمات آهنگ‌های مورد علاقه‌تان.
+                </p>
+                <a href="music.html" class="hero__btn">
+                    <i class="bi bi-play-circle-fill"></i> مشاهده همه آلبوم‌ها
+                </a>
+            </div>
+        </section>
+
+        <!-- بخش آلبوم‌های برگزیده -->
+        <section class="music-section" id="music">
+            <div class="container">
+                <div class="section-header">
+                    <h2><i class="bi bi-music-note-beamed"></i> آلبوم‌های محبوب</h2>
+                    <p>چند تا از پرطرفدارترین آلبوم‌های این هفته</p>
+                </div>
+
+                <div class="music-grid">
+                    <!-- باکس ۱ -->
+                    <a href="player.html?id=1" class="music-card">
+                        <div class="music-card__image">
+                            <img src="public/img/4956-450x450.jpg" alt="آلبوم آرامش" />
+                            <div class="music-card__overlay">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </div>
+                        </div>
+                        <div class="music-card__content">
+                            <h3 class="music-card__title">آلبوم آرامش</h3>
+                            <p class="music-card__artist">خواننده: ضایی</p>
+                            <div class="music-card__meta">
+                                <span><i class="bi bi-clock"></i> ۳۲:۱۵</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- باکس ۲ -->
+                    <a href="player.html?id=2" class="music-card">
+                        <div class="music-card__image">
+                            <img src="public/img/4956-450x450.jpg" alt="رؤیاهای شهری" />
+                            <div class="music-card__overlay">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </div>
+                        </div>
+                        <div class="music-card__content">
+                            <h3 class="music-card__title">رؤیاهای شهری</h3>
+                            <p class="music-card__artist">خواننده: سارا احمدی</p>
+                            <div class="music-card__meta">
+                                <span><i class="bi bi-clock"></i> ۴۵:۲۰</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- باکس ۳ -->
+                    <a href="player.html?id=5" class="music-card">
+                        <div class="music-card__image">
+                            <img src="public/img/4956-450x450.jpg" alt="ضربان قلب" />
+                            <div class="music-card__overlay">
+                                <i class="bi bi-play-circle-fill"></i>
+                            </div>
+                        </div>
+                        <div class="music-card__content">
+                            <h3 class="music-card__title">ضربان قلب</h3>
+                            <p class="music-card__artist">خواننده: حسین نوروزی</p>
+                            <div class="music-card__meta">
+                                <span><i class="bi bi-clock"></i> ۳۸:۵۵</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="section-header">
+                    <a href="music.html" class="view-all">مشاهده لیست کامل آلبوم‌ها ←</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container footer__wrapper">
+            <div class="footer__brand">
+                <div class="logo"><a href="index.html">My<span>Site</span></a></div>
+                <p>آرشیوی از موسیقی و شعر فارسی، برای شنیدن و همراهی با کلمات.</p>
+            </div>
+            <div class="footer__links">
+                <h4>دسترسی سریع</h4>
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="about.html">درباره ما</a></li>
+                    <li><a href="music.html">فایل های صوتی</a></li>
+                    <li><a href="contact.html">تماس با ما</a></li>
+                </ul>
+            </div>
+            <div class="footer__social">
+                <h4>ما را دنبال کنید</h4>
+                <div class="footer__social-icons">
+                    <a href="#" aria-label="اینستاگرام"><i class="bi bi-instagram"></i></a>
+                    <a href="#" aria-label="تلگرام"><i class="bi bi-telegram"></i></a>
+                    <a href="#" aria-label="ایمیل"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>© <span id="year"></span> MySite - تمامی حقوق محفوظ است</p>
+        </div>
+    </footer>
+
+    <!-- ===== فایل JS شخصی ===== -->
+    <script src="script.js"></script>
+</body>
+
+</html>

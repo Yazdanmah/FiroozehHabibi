@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="پخش آلبوم همراه با متن اشعار" />
+    <title>پخش آلبوم | MySite</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__wrapper">
+
+            <!-- لوگو -->
+            <div class="logo">
+                <a href="index.html">My<span>Site</span></a>
+            </div>
+
+            <!-- منوی اصلی -->
+            <nav class="nav" id="mainNav">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="index.html" class="nav__link">خانه</a></li>
+                    <li class="nav__item"><a href="about.html" class="nav__link">درباره ما</a></li>
+                    <li class="nav__item dropdown">
+                        <a href="#" class="nav__link dropdown__toggle">
+                            نمونه کارها <i class="bi bi-chevron-down"></i>
+                        </a>
+                        <ul class="dropdown__menu">
+                            <li><a href="metalwork.html">قلم زنی</a></li>
+                            <li><a href="calligraphy.html">خوشنویسی</a></li>
+                            <li><a href="painting.html">نقاشی</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav__item"><a href="music.html" class="nav__link active">فایل های صوتی</a></li>
+                    <li class="nav__item"><a href="contact.html" class="nav__link">تماس با ما</a></li>
+                </ul>
+            </nav>
+
+            <!-- دکمه همبرگری (موبایل) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="منو">
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+            </button>
+
+        </div>
+    </header>
+
+    <!-- ====== محتوای اصلی ====== -->
+    <main>
+        <section class="player-page">
+            <div class="player-container" id="playerContainer">
+                <img id="playerCover" src="public/img/4956-450x450.jpg" alt="" />
+                <h2 id="playerTitle">در حال بارگذاری...</h2>
+                <p class="artist" id="playerArtist"></p>
+
+                <div class="poem-container">
+                    <div class="poem-text" id="playerPoem"></div>
+                </div>
+
+                <div class="player-controls">
+                    <audio id="playerAudio" controls preload="metadata">
+                        <source id="playerAudioSource" src="" type="audio/mpeg">
+                        مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+                    </audio>
+                </div>
+
+                <a href="music.html" class="back-btn">
+                    <i class="bi bi-arrow-right"></i> بازگشت به لیست
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- فوتر -->
+    <footer class="footer">
+        <div class="container footer__wrapper">
+            <div class="footer__brand">
+                <div class="logo"><a href="index.html">My<span>Site</span></a></div>
+                <p>آرشیوی از موسیقی و شعر فارسی، برای شنیدن و همراهی با کلمات.</p>
+            </div>
+            <div class="footer__links">
+                <h4>دسترسی سریع</h4>
+                <ul>
+                    <li><a href="index.html">خانه</a></li>
+                    <li><a href="about.html">درباره ما</a></li>
+                    <li><a href="music.html">فایل های صوتی</a></li>
+                    <li><a href="contact.html">تماس با ما</a></li>
+                </ul>
+            </div>
+            <div class="footer__social">
+                <h4>ما را دنبال کنید</h4>
+                <div class="footer__social-icons">
+                    <a href="#" aria-label="اینستاگرام"><i class="bi bi-instagram"></i></a>
+                    <a href="#" aria-label="تلگرام"><i class="bi bi-telegram"></i></a>
+                    <a href="#" aria-label="ایمیل"><i class="bi bi-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <p>© <span id="year"></span> MySite - تمامی حقوق محفوظ است</p>
+        </div>
+    </footer>
+
+    <!-- ===== فایل JS شخصی ===== -->
+    <script src="script.js"></script>
+</body>
+
+</html>
