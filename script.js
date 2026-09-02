@@ -2,13 +2,19 @@
 // script.js
 // ============================================================
 
-// ===== 0. بارگذاری هدر و فوتر مشترک از فایل‌های جدا =====
+// ============================================================
+// 0. بارگذاری هدر و فوتر مشترک
+// ============================================================
+
 async function loadPartial(url, containerId) {
     const container = document.getElementById(containerId);
+
     if (!container) return;
 
     try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            cache: 'no-cache'
+        });
 
         if (!res.ok) {
             throw new Error('پاسخ نامعتبر برای ' + url);
@@ -27,8 +33,7 @@ async function loadPartial(url, containerId) {
 
 
 // ============================================================
-// پشتیبانی از URL بدون پسوند در Cloudflare Pages
-// /player/HaftKhan?id=1
+// تشخیص صفحه مجازی هفت خان
 // ============================================================
 
 function isHaftKhanVirtualRoute() {
@@ -38,251 +43,284 @@ function isHaftKhanVirtualRoute() {
 }
 
 
-async function loadVirtualHaftKhanPage() {
-
-    try {
-
-        /*
-         * فایل واقعی صفحه را می‌گیریم.
-         *
-         * URL مرورگر همچنان:
-         *
-         * /player/HaftKhan?id=1
-         *
-         * باقی می‌ماند.
-         */
-        const response = await fetch(
-            '/player/HaftKhan.html',
-            {
-                cache: 'no-cache'
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(
-                'فایل HaftKhan.html پیدا نشد: ' +
-                response.status
-            );
-        }
-
-
-        const html = await response.text();
-
-
-        // تبدیل HTML دریافت‌شده به DOM
-        const parser = new DOMParser();
-
-        const page = parser.parseFromString(
-            html,
-            'text/html'
-        );
-
-
-        // --------------------------------------------------------
-        // عنوان صفحه
-        // --------------------------------------------------------
-
-        if (page.title) {
-            document.title = page.title;
-        }
-
-
-        // --------------------------------------------------------
-        // Meta Description
-        // --------------------------------------------------------
-
-        const description =
-            page.querySelector(
-                'meta[name="description"]'
-            );
-
-        const currentDescription =
-            document.querySelector(
-                'meta[name="description"]'
-            );
-
-
-        if (description) {
-
-            const content =
-                description.getAttribute('content') || '';
-
-
-            if (currentDescription) {
-
-                currentDescription.setAttribute(
-                    'content',
-                    content
-                );
-
-            } else {
-
-                const meta =
-                    document.createElement('meta');
-
-                meta.name = 'description';
-                meta.content = content;
-
-                document.head.appendChild(meta);
-            }
-        }
-
-
-        // --------------------------------------------------------
-        // محتوای body صفحه هفت خان
-        // --------------------------------------------------------
-
-        document.body.innerHTML =
-            page.body.innerHTML;
-
-
-        // --------------------------------------------------------
-        // Bootstrap Icons
-        // --------------------------------------------------------
-
-        if (
-            !document.querySelector(
-                'link[href*="bootstrap-icons"]'
-            )
-        ) {
-
-            const iconLink =
-                document.createElement('link');
-
-            iconLink.rel = 'stylesheet';
-
-            iconLink.href =
-                'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css';
-
-            document.head.appendChild(
-                iconLink
-            );
-        }
-
-
-        // --------------------------------------------------------
-        // اجرای script داخلی HaftKhan.html
-        // --------------------------------------------------------
-        //
-        // این قسمت مهم است چون TRACKS داخل خود
-        // HaftKhan.html تعریف شده است.
-        //
-
-        page.body
-            .querySelectorAll('script')
-            .forEach(oldScript => {
-
-                // script خارجی script.js را دوباره اجرا نکن
-                if (oldScript.src) {
-                    return;
-                }
-
-
-                const newScript =
-                    document.createElement('script');
-
-                newScript.textContent =
-                    oldScript.textContent;
-
-
-                document.body.appendChild(
-                    newScript
-                );
-            });
-
-
-        // --------------------------------------------------------
-        // اصلاح مسیر کاور
-        // --------------------------------------------------------
-
-        const cover =
-            document.getElementById(
-                'playerCover'
-            );
-
-
-        if (
-            cover &&
-            cover.getAttribute('src')
-        ) {
-
-            const src =
-                cover.getAttribute('src');
-
-
-            /*
-             * تبدیل مسیرهای نسبی مثل:
-             *
-             * ../public/img/...
-             *
-             * به مسیر صحیح سایت
-             */
-            if (
-                src.startsWith('../') ||
-                src.startsWith('./')
-            ) {
-
-                cover.src =
-                    new URL(
-                        src,
-                        window.location.origin +
-                        '/player/'
-                    ).href;
-            }
-        }
-
-
-        // --------------------------------------------------------
-        // Header / Footer
-        // --------------------------------------------------------
-
-        await loadHeaderFooter();
-
-
-        // --------------------------------------------------------
-        // اجرای Player
-        // --------------------------------------------------------
-
-        initPlayerPage();
-
-
-        console.log(
-            '✅ صفحه /player/HaftKhan با موفقیت بارگذاری شد.'
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            '❌ خطا در بارگذاری صفحه /player/HaftKhan:',
-            error
-        );
+// ============================================================
+// داده‌های هفت خان
+//
+// این داده‌ها از HaftKhan.html فعلی گرفته شده‌اند.
+// ============================================================
+
+const HAFT_KHAN_TRACKS = {
+
+    1: {
+        title: 'خان اول - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان اول.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    2: {
+        title: 'خان دوم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان دوم.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    3: {
+        title: 'خان سوم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان سوم.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    4: {
+        title: 'خان چهارم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان چهارم.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    5: {
+        title: 'خان پنجم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان پنجم.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    6: {
+        title: 'خان ششم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان ششم .mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
+    },
+
+    7: {
+        title: 'خان هفتم - هفت خان رستم',
+        artist: 'شاهنامه فردوسی',
+        cover: '/public/img/4956-450x450.jpg',
+        audio: '/public/audio/HaftKhan/خان هفتم.mp3',
+        poem: [
+            'مصرع ۱',
+            'مصرع ۲',
+            'مصرع ۳',
+            'مصرع ۴'
+        ]
     }
-}
 
+};
 
 
 // ============================================================
-// مشخص کردن لینک فعال منو بر اساس صفحه جاری
+// ساخت صفحه هفت خان روی index.html
+//
+// این قسمت مشکل Cloudflare Pages را دور می‌زند.
+// اگر Cloudflare برای /player/HaftKhan
+// فایل index.html را برگرداند، این کد همان صفحه را
+// به Player تبدیل می‌کند.
+//
+// بدون:
+// - _redirects
+// - Functions
+// - تغییر نام HaftKhan.html
+// ============================================================
+
+function buildVirtualHaftKhanPage() {
+
+    document.title = 'هفت خان رستم | Firoozeh Habibi';
+
+    // --------------------------------------------------------
+    // Head
+    // --------------------------------------------------------
+
+    const existingDescription =
+        document.querySelector('meta[name="description"]');
+
+    if (existingDescription) {
+
+        existingDescription.setAttribute(
+            'content',
+            'پخش قطعات هفت خان رستم همراه با متن اشعار'
+        );
+
+    } else {
+
+        const meta =
+            document.createElement('meta');
+
+        meta.name = 'description';
+
+        meta.content =
+            'پخش قطعات هفت خان رستم همراه با متن اشعار';
+
+        document.head.appendChild(meta);
+    }
+
+
+    // --------------------------------------------------------
+    // Body
+    // --------------------------------------------------------
+
+    document.body.innerHTML = `
+
+        <div id="site-header"></div>
+
+        <main>
+
+            <section class="player-page">
+
+                <div
+                    class="player-container"
+                    id="playerContainer"
+                >
+
+                    <img
+                        id="playerCover"
+                        src="/public/img/4956-450x450.jpg"
+                        alt=""
+                    />
+
+                    <h2 id="playerTitle">
+                        در حال بارگذاری...
+                    </h2>
+
+                    <p
+                        class="artist"
+                        id="playerArtist"
+                    ></p>
+
+
+                    <div class="poem-container">
+
+                        <div
+                            class="poem-text"
+                            id="playerPoem"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="player-controls">
+
+                        <audio
+                            id="playerAudio"
+                            controls
+                            preload="metadata"
+                        >
+
+                            <source
+                                id="playerAudioSource"
+                                src=""
+                                type="audio/mpeg"
+                            >
+
+                            مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+
+                        </audio>
+
+                    </div>
+
+
+                    <a
+                        href="/album.html?id=1"
+                        class="back-btn"
+                    >
+                        <i class="bi bi-arrow-right"></i>
+                        بازگشت به آلبوم
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <div id="site-footer"></div>
+
+    `;
+
+
+    // --------------------------------------------------------
+    // Player
+    // --------------------------------------------------------
+
+    initPlayerPage();
+
+
+    // --------------------------------------------------------
+    // Header / Footer
+    // --------------------------------------------------------
+
+    loadHeaderFooter();
+
+
+    console.log(
+        '✅ مسیر مجازی /player/HaftKhan ساخته شد.'
+    );
+}
+
+
+// ============================================================
+// مشخص کردن لینک فعال منو
 // ============================================================
 
 function setActiveNavLink() {
 
+    const currentPath =
+        location.pathname.replace(/\/+$/, '');
+
     const currentPage =
-        location.pathname
-            .split('/')
-            .pop() || 'index.html';
+        currentPath.split('/').pop() || 'index.html';
 
 
     document
-        .querySelectorAll(
-            '.nav__link[href]'
-        )
+        .querySelectorAll('.nav__link[href]')
         .forEach(link => {
 
+            const href =
+                link.getAttribute('href');
+
+            if (!href) return;
+
+
             if (
-                link.getAttribute('href') ===
-                currentPage
+                href === currentPage ||
+                href === currentPath
             ) {
 
                 link.classList.add('active');
@@ -301,6 +339,7 @@ function setActiveNavLink() {
 
 
                     if (toggle) {
+
                         toggle.classList.add(
                             'active'
                         );
@@ -311,9 +350,8 @@ function setActiveNavLink() {
 }
 
 
-
 // ============================================================
-// 1 و 2. همبرگر و بستن منو در موبایل
+// 1 و 2. منوی همبرگری
 // ============================================================
 
 function initHamburgerMenu() {
@@ -343,9 +381,11 @@ function initHamburgerMenu() {
                     'active'
                 );
 
+
                 mainNav.classList.toggle(
                     'open'
                 );
+
             }
         );
     }
@@ -363,10 +403,6 @@ function initHamburgerMenu() {
             'click',
             () => {
 
-                /*
-                 * لینک «نمونه کارها»
-                 * خودش زیرمنو را باز و بسته می‌کند.
-                 */
                 if (
                     link.classList.contains(
                         'dropdown__toggle'
@@ -386,19 +422,20 @@ function initHamburgerMenu() {
                         'active'
                     );
 
+
                     mainNav.classList.remove(
                         'open'
                     );
                 }
+
             }
         );
     });
 }
 
 
-
 // ============================================================
-// 3. ساب‌منو در موبایل
+// 3. ساب‌منو موبایل
 // ============================================================
 
 function initDropdownMenu() {
@@ -435,15 +472,15 @@ function initDropdownMenu() {
                         );
                     }
                 }
+
             }
         );
     });
 }
 
 
-
 // ============================================================
-// 4. افکت اسکرول
+// 4. افکت اسکرول هدر
 // ============================================================
 
 function initHeaderScrollEffect() {
@@ -474,15 +511,15 @@ function initHeaderScrollEffect() {
                         'scrolled'
                     );
                 }
+
             }
         );
     }
 }
 
 
-
 // ============================================================
-// سال فوتر
+// 5. سال فوتر
 // ============================================================
 
 function initFooterYear() {
@@ -501,9 +538,8 @@ function initFooterYear() {
 }
 
 
-
 // ============================================================
-// اجرای موارد وابسته به Header / Footer
+// Header / Footer
 // ============================================================
 
 async function loadHeaderFooter() {
@@ -535,312 +571,214 @@ async function loadHeaderFooter() {
 }
 
 
-
 // ============================================================
-// DOM Ready
+// 6. لایت‌باکس
 // ============================================================
 
-document.addEventListener(
-    'DOMContentLoaded',
-    () => {
+function initLightbox() {
+
+    const lightbox =
+        document.getElementById(
+            'lightbox'
+        );
 
 
-        /*
-         * اگر کاربر دقیقاً وارد:
-         *
-         * /player/HaftKhan?id=1
-         *
-         * شده باشد، Cloudflare ممکن است index.html
-         * را تحویل دهد.
-         *
-         * در این حالت صفحه واقعی HaftKhan.html
-         * را داخل همین URL بارگذاری می‌کنیم.
-         */
-        if (
-            isHaftKhanVirtualRoute()
-        ) {
-
-            loadVirtualHaftKhanPage();
-
-            return;
-        }
+    const lightboxImg =
+        document.getElementById(
+            'lightboxImg'
+        );
 
 
-        // Header / Footer
-        loadHeaderFooter();
+    const lightboxCaption =
+        document.getElementById(
+            'lightboxCaption'
+        );
 
 
-        // =====================================================
-        // 5. باکس‌های موسیقی
-        // =====================================================
-
-        const musicCards =
-            document.querySelectorAll(
-                '.music-card'
-            );
+    const lightboxClose =
+        document.getElementById(
+            'lightboxClose'
+        );
 
 
-        musicCards.forEach(card => {
-
-            card.addEventListener(
-                'click',
-                function () {
-
-                    const title =
-                        this.querySelector(
-                            '.music-card__title'
-                        )?.textContent || '';
+    const portfolioCards =
+        document.querySelectorAll(
+            '.portfolio-card'
+        );
 
 
-                    const artist =
-                        this.querySelector(
-                            '.music-card__artist'
-                        )?.textContent || '';
+    if (
+        lightbox &&
+        lightboxImg
+    ) {
 
+        portfolioCards.forEach(
+            card => {
 
-                    try {
-
-                        localStorage.setItem(
-                            'lastPlayed',
-                            JSON.stringify({
-                                title: title,
-                                artist: artist,
-                                time: new Date()
-                                    .toLocaleString()
-                            })
-                        );
-
-                    } catch (error) {
-
-                        console.log(
-                            'خطا در ذخیره‌سازی:',
-                            error
-                        );
-                    }
-                }
-            );
-        });
-
-
-
-        // =====================================================
-        // 6. لایت‌باکس گالری نمونه‌کار
-        // =====================================================
-
-        const lightbox =
-            document.getElementById(
-                'lightbox'
-            );
-
-
-        const lightboxImg =
-            document.getElementById(
-                'lightboxImg'
-            );
-
-
-        const lightboxCaption =
-            document.getElementById(
-                'lightboxCaption'
-            );
-
-
-        const lightboxClose =
-            document.getElementById(
-                'lightboxClose'
-            );
-
-
-        const portfolioCards =
-            document.querySelectorAll(
-                '.portfolio-card'
-            );
-
-
-        if (
-            lightbox &&
-            lightboxImg
-        ) {
-
-            portfolioCards.forEach(
-                card => {
-
-                    card.addEventListener(
-                        'click',
-                        () => {
-
-                            const img =
-                                card.querySelector(
-                                    'img'
-                                );
-
-
-                            const title =
-                                card.querySelector(
-                                    '.portfolio-card__title'
-                                )?.textContent || '';
-
-
-                            if (img) {
-
-                                lightboxImg.src =
-                                    img.src;
-
-                                lightboxImg.alt =
-                                    img.alt;
-                            }
-
-
-                            if (
-                                lightboxCaption
-                            ) {
-
-                                lightboxCaption.textContent =
-                                    title;
-                            }
-
-
-                            lightbox.classList.add(
-                                'open'
-                            );
-                        }
-                    );
-                }
-            );
-
-
-            const closeLightbox =
-                () =>
-                    lightbox.classList.remove(
-                        'open'
-                    );
-
-
-            if (lightboxClose) {
-
-                lightboxClose.addEventListener(
+                card.addEventListener(
                     'click',
-                    closeLightbox
-                );
-            }
+                    () => {
+
+                        const img =
+                            card.querySelector(
+                                'img'
+                            );
 
 
-            lightbox.addEventListener(
-                'click',
-                (e) => {
-
-                    if (
-                        e.target ===
-                        lightbox
-                    ) {
-
-                        closeLightbox();
-                    }
-                }
-            );
+                        const title =
+                            card.querySelector(
+                                '.portfolio-card__title'
+                            )?.textContent || '';
 
 
-            document.addEventListener(
-                'keydown',
-                (e) => {
+                        if (img) {
 
-                    if (
-                        e.key === 'Escape'
-                    ) {
-
-                        closeLightbox();
-                    }
-                }
-            );
+                            lightboxImg.src =
+                                img.src;
 
 
-        } else {
-
-            /*
-             * در صفحه اصلی لایت‌باکس وجود ندارد.
-             * کارت‌های نمونه‌کار به صفحه مربوطه هدایت می‌شوند.
-             */
-
-            document
-                .querySelectorAll(
-                    '.portfolio-card[data-href]'
-                )
-                .forEach(card => {
-
-                    card.addEventListener(
-                        'click',
-                        () => {
-
-                            window.location.href =
-                                card.dataset.href;
+                            lightboxImg.alt =
+                                img.alt;
                         }
-                    );
-                });
+
+
+                        if (
+                            lightboxCaption
+                        ) {
+
+                            lightboxCaption.textContent =
+                                title;
+                        }
+
+
+                        lightbox.classList.add(
+                            'open'
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        const closeLightbox =
+            () => {
+
+                lightbox.classList.remove(
+                    'open'
+                );
+
+            };
+
+
+        if (lightboxClose) {
+
+            lightboxClose.addEventListener(
+                'click',
+                closeLightbox
+            );
         }
 
 
+        lightbox.addEventListener(
+            'click',
+            (e) => {
 
-        // =====================================================
-        // 7. فرم تماس
-        // =====================================================
+                if (
+                    e.target ===
+                    lightbox
+                ) {
 
-        const contactForm =
-            document.getElementById(
-                'contactForm'
-            );
-
-
-        const formStatus =
-            document.getElementById(
-                'formStatus'
-            );
-
-
-        if (
-            contactForm &&
-            formStatus
-        ) {
-
-            contactForm.addEventListener(
-                'submit',
-                (e) => {
-
-                    e.preventDefault();
-
-
-                    formStatus.textContent =
-                        'پیام شما با موفقیت ثبت شد. به‌زودی با شما تماس می‌گیریم.';
-
-
-                    formStatus.classList.add(
-                        'success'
-                    );
-
-
-                    contactForm.reset();
+                    closeLightbox();
                 }
-            );
-        }
+
+            }
+        );
 
 
+        document.addEventListener(
+            'keydown',
+            (e) => {
 
-        // =====================================================
-        // 8. صفحه آلبوم
-        // =====================================================
+                if (
+                    e.key === 'Escape'
+                ) {
 
-        initAlbumPage();
+                    closeLightbox();
+                }
 
+            }
+        );
 
+    } else {
 
-        // =====================================================
-        // 9. صفحه پخش
-        // =====================================================
+        document
+            .querySelectorAll(
+                '.portfolio-card[data-href]'
+            )
+            .forEach(card => {
 
-        initPlayerPage();
+                card.addEventListener(
+                    'click',
+                    () => {
 
+                        window.location.href =
+                            card.dataset.href;
+
+                    }
+                );
+
+            });
     }
-);
+}
 
+
+// ============================================================
+// 7. فرم تماس
+// ============================================================
+
+function initContactForm() {
+
+    const contactForm =
+        document.getElementById(
+            'contactForm'
+        );
+
+
+    const formStatus =
+        document.getElementById(
+            'formStatus'
+        );
+
+
+    if (
+        contactForm &&
+        formStatus
+    ) {
+
+        contactForm.addEventListener(
+            'submit',
+            (e) => {
+
+                e.preventDefault();
+
+
+                formStatus.textContent =
+                    'پیام شما با موفقیت ثبت شد. به‌زودی با شما تماس می‌گیریم.';
+
+
+                formStatus.classList.add(
+                    'success'
+                );
+
+
+                contactForm.reset();
+
+            }
+        );
+    }
+}
 
 
 // ============================================================
@@ -861,10 +799,6 @@ const ALBUMS = {
         description:
             'روایت صوتی هفت خان رستم در شاهنامه‌ی فردوسی.',
 
-        /*
-         * مهم:
-         * لینک بدون پسوند
-         */
         playerPage:
             '/player/HaftKhan',
 
@@ -1091,9 +1025,8 @@ const ALBUMS = {
 };
 
 
-
 // ============================================================
-// ساخت صفحه آلبوم
+// 8. صفحه آلبوم
 // ============================================================
 
 function initAlbumPage() {
@@ -1174,6 +1107,7 @@ function initAlbumPage() {
         coverEl.src =
             album.cover;
 
+
         coverEl.alt =
             album.title;
     }
@@ -1235,15 +1169,15 @@ function initAlbumPage() {
                 tracksEl.appendChild(
                     link
                 );
+
             }
         );
     }
 }
 
 
-
 // ============================================================
-// صفحه پخش قطعه
+// 9. صفحه پخش
 // ============================================================
 
 function initPlayerPage() {
@@ -1259,19 +1193,27 @@ function initPlayerPage() {
     }
 
 
-    /*
-     * TRACKS داخل HaftKhan.html تعریف می‌شود.
-     */
+    // --------------------------------------------------------
+    // اگر صفحه مجازی هفت خان است
+    // از داده داخلی script.js استفاده می‌کنیم.
+    // --------------------------------------------------------
+
+    let tracks =
+        HAFT_KHAN_TRACKS;
+
+
+    // --------------------------------------------------------
+    // اگر TRACKS از HaftKhan.html وجود داشته باشد،
+    // همان داده را ترجیح می‌دهیم.
+    // --------------------------------------------------------
+
     if (
-        typeof TRACKS ===
-        'undefined'
+        typeof TRACKS !== 'undefined' &&
+        TRACKS
     ) {
 
-        console.log(
-            'TRACKS هنوز تعریف نشده است.'
-        );
-
-        return;
+        tracks =
+            TRACKS;
     }
 
 
@@ -1286,7 +1228,7 @@ function initPlayerPage() {
 
 
     const track =
-        TRACKS[trackId];
+        tracks[trackId];
 
 
     const titleEl =
@@ -1325,11 +1267,15 @@ function initPlayerPage() {
         );
 
 
+    // ========================================================
+    // قطعه پیدا شد
+    // ========================================================
+
     if (track) {
 
-        // ------------------------------------------------------
+        // ----------------------------------------------------
         // عنوان
-        // ------------------------------------------------------
+        // ----------------------------------------------------
 
         if (titleEl) {
 
@@ -1338,31 +1284,26 @@ function initPlayerPage() {
         }
 
 
-        // ------------------------------------------------------
+        // ----------------------------------------------------
         // هنرمند
-        // ------------------------------------------------------
+        // ----------------------------------------------------
 
         if (artistEl) {
 
             artistEl.textContent =
-                track.artist;
+                track.artist || '';
         }
 
 
-        // ------------------------------------------------------
+        // ----------------------------------------------------
         // کاور
-        // ------------------------------------------------------
+        // ----------------------------------------------------
 
         if (coverEl) {
 
             let coverPath =
-                track.cover;
+                track.cover || '';
 
-
-            /*
-             * اگر مسیر نسبی بود، آن را به ریشه سایت
-             * تبدیل می‌کنیم.
-             */
 
             if (
                 coverPath.startsWith('../')
@@ -1395,9 +1336,9 @@ function initPlayerPage() {
         }
 
 
-        // ------------------------------------------------------
+        // ----------------------------------------------------
         // شعر
-        // ------------------------------------------------------
+        // ----------------------------------------------------
 
         if (poemEl) {
 
@@ -1405,9 +1346,7 @@ function initPlayerPage() {
 
 
             if (
-                Array.isArray(
-                    track.poem
-                )
+                Array.isArray(track.poem)
             ) {
 
                 track.poem.forEach(
@@ -1430,19 +1369,28 @@ function initPlayerPage() {
                         poemEl.appendChild(
                             lineEl
                         );
+
                     }
                 );
 
+            } else if (
+                typeof track.poem === 'string'
+            ) {
+
+                poemEl.textContent =
+                    track.poem;
+
             } else {
 
-                poemEl.textContent = '';
+                poemEl.textContent =
+                    '';
             }
         }
 
 
-        // ------------------------------------------------------
+        // ----------------------------------------------------
         // فایل صوتی
-        // ------------------------------------------------------
+        // ----------------------------------------------------
 
         if (
             audioSourceEl &&
@@ -1450,13 +1398,8 @@ function initPlayerPage() {
         ) {
 
             let audioPath =
-                track.audio;
+                track.audio || '';
 
-
-            /*
-             * مسیرهای ../public/... را به
-             * /public/... تبدیل می‌کنیم.
-             */
 
             if (
                 audioPath.startsWith('../')
@@ -1488,34 +1431,160 @@ function initPlayerPage() {
         }
 
 
-    } else {
-
-        // ------------------------------------------------------
-        // آیدی نامعتبر
-        // ------------------------------------------------------
-
-        if (titleEl) {
-
-            titleEl.textContent =
-                'این قطعه پیدا نشد';
-        }
+        return;
+    }
 
 
-        if (artistEl) {
+    // ========================================================
+    // آیدی نامعتبر
+    // ========================================================
 
-            artistEl.textContent =
-                '';
-        }
+    if (titleEl) {
+
+        titleEl.textContent =
+            'این قطعه پیدا نشد';
+    }
 
 
-        if (poemEl) {
+    if (artistEl) {
 
-            poemEl.textContent =
-                'به آلبوم برگرد و یکی از قطعات را انتخاب کن.';
-        }
+        artistEl.textContent =
+            '';
+    }
+
+
+    if (poemEl) {
+
+        poemEl.textContent =
+            'به آلبوم برگرد و یکی از قطعات را انتخاب کن.';
     }
 }
 
+
+// ============================================================
+// DOM Ready
+// ============================================================
+
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+        // ====================================================
+        // مهم‌ترین قسمت:
+        //
+        // اگر Cloudflare برای
+        // /player/HaftKhan?id=1
+        // index.html را تحویل داده باشد،
+        // index.html را به صفحه Player تبدیل می‌کنیم.
+        // ====================================================
+
+        if (
+            isHaftKhanVirtualRoute()
+        ) {
+
+            buildVirtualHaftKhanPage();
+
+            return;
+        }
+
+
+        // ====================================================
+        // Header / Footer
+        // ====================================================
+
+        loadHeaderFooter();
+
+
+        // ====================================================
+        // Music Cards
+        // ====================================================
+
+        const musicCards =
+            document.querySelectorAll(
+                '.music-card'
+            );
+
+
+        musicCards.forEach(card => {
+
+            card.addEventListener(
+                'click',
+                function () {
+
+                    const title =
+                        this.querySelector(
+                            '.music-card__title'
+                        )?.textContent || '';
+
+
+                    const artist =
+                        this.querySelector(
+                            '.music-card__artist'
+                        )?.textContent || '';
+
+
+                    try {
+
+                        localStorage.setItem(
+                            'lastPlayed',
+                            JSON.stringify({
+
+                                title:
+                                    title,
+
+                                artist:
+                                    artist,
+
+                                time:
+                                    new Date()
+                                        .toLocaleString()
+
+                            })
+                        );
+
+                    } catch (error) {
+
+                        console.log(
+                            'خطا در ذخیره‌سازی:',
+                            error
+                        );
+                    }
+
+                }
+            );
+
+        });
+
+
+        // ====================================================
+        // Lightbox
+        // ====================================================
+
+        initLightbox();
+
+
+        // ====================================================
+        // Contact Form
+        // ====================================================
+
+        initContactForm();
+
+
+        // ====================================================
+        // Album Page
+        // ====================================================
+
+        initAlbumPage();
+
+
+        // ====================================================
+        // Player Page
+        // ====================================================
+
+        initPlayerPage();
+
+    }
+);
 
 
 // ============================================================
