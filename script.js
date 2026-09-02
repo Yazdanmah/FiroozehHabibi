@@ -52,7 +52,7 @@ function isHaftKhanVirtualRoute() {
 const HAFT_KHAN_TRACKS = {
 
     1: {
-        title: 'خان اول - هفت خان رستم',
+        title: 'خوان اول - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان اول.mp3',
@@ -65,7 +65,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     2: {
-        title: 'خان دوم - هفت خان رستم',
+        title: 'خوان دوم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان دوم.mp3',
@@ -78,7 +78,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     3: {
-        title: 'خان سوم - هفت خان رستم',
+        title: 'خوان سوم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان سوم.mp3',
@@ -91,7 +91,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     4: {
-        title: 'خان چهارم - هفت خان رستم',
+        title: 'خوان چهارم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان چهارم.mp3',
@@ -104,7 +104,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     5: {
-        title: 'خان پنجم - هفت خان رستم',
+        title: 'خوان پنجم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان پنجم.mp3',
@@ -117,7 +117,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     6: {
-        title: 'خان ششم - هفت خان رستم',
+        title: 'خوان ششم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان ششم .mp3',
@@ -130,7 +130,7 @@ const HAFT_KHAN_TRACKS = {
     },
 
     7: {
-        title: 'خان هفتم - هفت خان رستم',
+        title: 'خوان هفتم - هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
         cover: '/public/img/4956-450x450.jpg',
         audio: '/public/audio/HaftKhan/خان هفتم.mp3',
@@ -174,7 +174,7 @@ function buildVirtualHaftKhanPage() {
 
         existingDescription.setAttribute(
             'content',
-            'پخش قطعات هفت خان رستم همراه با متن اشعار'
+            'پخش قطعات هفت خوان رستم همراه با متن اشعار'
         );
 
     } else {
@@ -185,7 +185,7 @@ function buildVirtualHaftKhanPage() {
         meta.name = 'description';
 
         meta.content =
-            'پخش قطعات هفت خان رستم همراه با متن اشعار';
+            'پخش قطعات هفت خوان رستم همراه با متن اشعار';
 
         document.head.appendChild(meta);
     }
@@ -789,7 +789,7 @@ const ALBUMS = {
 
     1: {
 
-        title: 'هفت خان رستم',
+        title: 'هفت خوان رستم',
 
         artist: 'شاهنامه فردوسی',
 
@@ -797,7 +797,7 @@ const ALBUMS = {
             '/public/img/4956-450x450.jpg',
 
         description:
-            'روایت صوتی هفت خان رستم در شاهنامه‌ی فردوسی.',
+            'روایت صوتی هفت خوان رستم در شاهنامه‌ی فردوسی.',
 
         playerPage:
             '/player/HaftKhan',
@@ -806,37 +806,37 @@ const ALBUMS = {
 
             {
                 id: 1,
-                title: 'خان اول'
+                title: 'خوان اول'
             },
 
             {
                 id: 2,
-                title: 'خان دوم'
+                title: 'خوان دوم'
             },
 
             {
                 id: 3,
-                title: 'خان سوم'
+                title: 'خوان سوم'
             },
 
             {
                 id: 4,
-                title: 'خان چهارم'
+                title: 'خوان چهارم'
             },
 
             {
                 id: 5,
-                title: 'خان پنجم'
+                title: 'خوان پنجم'
             },
 
             {
                 id: 6,
-                title: 'خان ششم'
+                title: 'خوان ششم'
             },
 
             {
                 id: 7,
-                title: 'خان هفتم'
+                title: 'خوان هفتم'
             }
 
         ]
