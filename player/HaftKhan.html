@@ -2,100 +2,409 @@
 <html lang="fa" dir="rtl">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="پخش قطعات هفت خان رستم همراه با متن اشعار" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="پخش قطعات هفت خان رستم همراه با متن اشعار">
+
     <title>هفت خان رستم | Firoozeh Habibi</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="/style.css" />
+
+    <!-- آیکون‌ها -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- استایل اصلی سایت -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
-    <div id="site-header"></div>
 
-    <!-- ====== محتوای اصلی ====== -->
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="header">
+        <div class="container header__wrapper">
+
+            <!-- لوگو -->
+            <div class="logo">
+                <a href="/">Firoozeh <span>Habibi</span></a>
+            </div>
+
+            <!-- منوی اصلی -->
+            <nav class="nav" id="mainNav">
+                <ul class="nav__list">
+
+                    <li class="nav__item">
+                        <a href="/" class="nav__link">
+                            خانه
+                        </a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="/about.html" class="nav__link">
+                            درباره من
+                        </a>
+                    </li>
+
+                    <li class="nav__item dropdown">
+                        <a href="#" class="nav__link dropdown__toggle">
+                            نمونه آثار
+                            <i class="bi bi-chevron-down"></i>
+                        </a>
+
+                        <ul class="dropdown__menu">
+                            <li>
+                                <a href="/metalwork.html">
+                                    تابلو
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/calligraphy.html">
+                                    زیورآلات
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="/painting.html">
+                                    ظروف حجمی
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="/music.html" class="nav__link">
+                            فایل های صوتی
+                        </a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="/contact.html" class="nav__link">
+                            ارتباط با من
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
+            <!-- دکمه همبرگری موبایل -->
+            <button
+                class="hamburger"
+                id="hamburgerBtn"
+                aria-label="منو"
+                type="button"
+            >
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+                <span class="hamburger__line"></span>
+            </button>
+
+        </div>
+    </header>
+
+
+    <!-- =====================================================
+         MAIN - PLAYER
+         ===================================================== -->
+
     <main>
+
         <section class="player-page">
+
             <div class="player-container" id="playerContainer">
-                <img id="playerCover" src="../public/img/4956-450x450.jpg" alt="" />
-                <h2 id="playerTitle">در حال بارگذاری...</h2>
+
+                <!-- تصویر آلبوم -->
+                <img
+                    id="playerCover"
+                    src="/public/img/4956-450x450.jpg"
+                    alt="هفت خان رستم"
+                >
+
+                <!-- عنوان -->
+                <h1 id="playerTitle">
+                    در حال بارگذاری...
+                </h1>
+
+                <!-- خواننده / شاعر -->
                 <p class="artist" id="playerArtist"></p>
 
+
+                <!-- شعر -->
                 <div class="poem-container">
-                    <div class="poem-text" id="playerPoem"></div>
+
+                    <div
+                        class="poem-text"
+                        id="playerPoem"
+                    ></div>
+
                 </div>
 
+
+                <!-- پلیر -->
                 <div class="player-controls">
-                    <audio id="playerAudio" controls preload="metadata">
-                        <source id="playerAudioSource" src="" type="audio/mpeg">
+
+                    <audio
+                        id="playerAudio"
+                        controls
+                        preload="metadata"
+                    >
+                        <source
+                            id="playerAudioSource"
+                            src=""
+                            type="audio/mpeg"
+                        >
+
                         مرورگر شما از پخش صدا پشتیبانی نمی‌کند.
+
                     </audio>
+
                 </div>
 
-                <a href="/album.html?id=1" class="back-btn">
-                    <i class="bi bi-arrow-right"></i> بازگشت به آلبوم
+
+                <!-- بازگشت به آلبوم -->
+                <a
+                    href="/album.html?id=1"
+                    class="back-btn"
+                >
+                    <i class="bi bi-arrow-right"></i>
+                    بازگشت به آلبوم
                 </a>
+
             </div>
+
         </section>
+
     </main>
 
-    <div id="site-footer"></div>
 
-    <!-- دادهٔ قطعات همین آلبوم؛ فقط همین فایل از این داده استفاده می‌کند -->
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <div class="container footer__wrapper">
+
+            <!-- برند -->
+            <div class="footer__brand">
+
+                <div class="logo">
+                    <a href="/">
+                        Firoozeh <span>Habibi</span>
+                    </a>
+                </div>
+
+                <p>
+                    آرشیوی از موسیقی و شعر فارسی، برای شنیدن و همراهی با کلمات.
+                </p>
+
+            </div>
+
+
+            <!-- لینک‌ها -->
+            <div class="footer__links">
+
+                <h4>
+                    دسترسی سریع
+                </h4>
+
+                <ul>
+
+                    <li>
+                        <a href="/">
+                            خانه
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/about.html">
+                            درباره ما
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/music.html">
+                            فایل های صوتی
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/contact.html">
+                            تماس با ما
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <!-- شبکه‌های اجتماعی -->
+            <div class="footer__social">
+
+                <h4>
+                    ما را دنبال کنید
+                </h4>
+
+                <div class="footer__social-icons">
+
+                    <a
+                        href="#"
+                        aria-label="اینستاگرام"
+                    >
+                        <i class="bi bi-instagram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="تلگرام"
+                    >
+                        <i class="bi bi-telegram"></i>
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="ایمیل"
+                    >
+                        <i class="bi bi-envelope"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- پایین فوتر -->
+        <div class="footer__bottom">
+
+            <p>
+                ©
+                <span id="year"></span>
+                Firoozeh Habibi - تمامی حقوق محفوظ است
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         DATA
+         ===================================================== -->
+
     <script>
         const TRACKS = {
+
             1: {
                 title: 'خان اول - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان اول.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             2: {
                 title: 'خان دوم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان دوم.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             3: {
                 title: 'خان سوم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان سوم.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             4: {
                 title: 'خان چهارم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان چهارم.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             5: {
                 title: 'خان پنجم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان پنجم.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             6: {
                 title: 'خان ششم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان ششم .mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             },
+
             7: {
                 title: 'خان هفتم - هفت خان رستم',
                 artist: 'شاهنامه فردوسی',
                 cover: '/public/img/4956-450x450.jpg',
                 audio: '/public/audio/HaftKhan/خان هفتم.mp3',
-                poem: ['مصرع ۱', 'مصرع ۲', 'مصرع ۳', 'مصرع ۴']
+
+                poem: [
+                    'مصرع ۱',
+                    'مصرع ۲',
+                    'مصرع ۳',
+                    'مصرع ۴'
+                ]
             }
+
         };
     </script>
+
+
+    <!-- JavaScript اصلی سایت -->
     <script src="/script.js"></script>
+
 </body>
 
 </html>
