@@ -1,3 +1,67 @@
+// ===== مدیریت URL تمیز صفحات Player =====
+(async function handleCleanPlayerUrl() {
+    const path = window.location.pathname;
+
+    // اگر آدرس صفحه پخش بدون .html بود
+    if (path === '/player/HaftKhan') {
+        try {
+            const response = await fetch('/player/HaftKhan.html');
+
+            if (!response.ok) {
+                throw new Error('صفحه HaftKhan.html پیدا نشد');
+            }
+
+            const html = await response.text();
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // عنوان صفحه
+            document.title = doc.title;
+
+            // head
+            document.head.innerHTML = doc.head.innerHTML;
+
+            // body
+            document.body.innerHTML = doc.body.innerHTML;
+
+            // اجرای اسکریپت‌های داخل HaftKhan.html
+            doc.querySelectorAll('script').forEach(oldScript => {
+                // script.js را دوباره اجرا نکن
+                if (oldScript.src && oldScript.src.includes('script.js')) {
+                    return;
+                }
+
+                const newScript = document.createElement('script');
+
+                if (oldScript.src) {
+                    newScript.src = oldScript.src;
+                } else {
+                    newScript.textContent = oldScript.textContent;
+                }
+
+                document.body.appendChild(newScript);
+            });
+
+            // بعد از ساخت TRACKS، اطلاعات پلیر را نمایش بده
+            setTimeout(() => {
+                if (typeof initPlayerPage === 'function') {
+                    initPlayerPage();
+                }
+
+                if (typeof loadHeaderFooter === 'function') {
+                    loadHeaderFooter();
+                }
+            }, 50);
+
+        } catch (error) {
+            console.error('خطا در بارگذاری صفحه پخش:', error);
+        }
+    }
+})();
+//
+//
+//
 // ===== 0. بارگذاری هدر و فوتر مشترک از فایل‌های جدا =====
 async function loadPartial(url, containerId) {
     const container = document.getElementById(containerId);
