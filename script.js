@@ -95,8 +95,8 @@ function initFooterYear() {
 // اجرای همه‌ی موارد وابسته به هدر/فوتر بعد از بارگذاری موفق آن‌ها
 async function loadHeaderFooter() {
     await Promise.all([
-     loadPartial('/public/header.html', 'site-header'),
-     loadPartial('/public/footer.html', 'site-footer')
+     loadPartial('public/header.html', 'site-header'),
+     loadPartial('public/footer.html', 'site-footer')
     ]);
     setActiveNavLink();
     initHamburgerMenu();
