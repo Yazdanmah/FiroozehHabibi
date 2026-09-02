@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Lalezar&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap');
 
 :root {
     /* رنگ اصلی: لاجوردی، الهام از تذهیب و نگارگری ایرانی */
@@ -55,6 +55,12 @@ h1, h2,
 
 main {
     flex: 1;
+}
+
+/* جای‌گیرنده‌های هدر و فوتر مشترک؛ باعث نمی‌شن چیدمان فلکس بدنه به‌هم بریزد */
+#site-header,
+#site-footer {
+    display: contents;
 }
 
 img {
@@ -657,6 +663,105 @@ img {
     color: #1c8a4a;
 }
 
+/* ===== Album Page ===== */
+.album-page {
+    padding: 150px 0 80px;
+}
+
+.album-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: #fff;
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 10px 40px rgba(31, 63, 115, 0.12);
+    margin-bottom: 2.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.album-header__cover {
+    width: 170px;
+    height: 170px;
+    border-radius: 18px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.album-header__info h1 {
+    color: var(--ink);
+    font-size: 2rem;
+    margin-bottom: 0.4rem;
+}
+
+.album-header__artist {
+    color: var(--muted);
+    font-size: 1rem;
+    margin-bottom: 0.9rem;
+}
+
+.album-header__desc {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.9;
+}
+
+.album-tracks {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+}
+
+.track-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #fff;
+    border-radius: 14px;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(31, 63, 115, 0.08);
+    transition: all 0.25s ease;
+}
+
+.track-card:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 10px 30px rgba(31, 63, 115, 0.18);
+}
+
+.track-card__icon {
+    color: var(--lapis);
+    font-size: 1.6rem;
+}
+
+.track-card__title {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.album-page .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.8rem 2rem;
+    background: var(--lapis);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.album-page .back-btn:hover {
+    background: var(--lapis-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(31, 63, 115, 0.3);
+}
+
 /* ===== Player Page ===== */
 .player-page {
     min-height: 100vh;
@@ -743,16 +848,24 @@ img {
 
 .poem-text {
     color: var(--ink-soft);
-    font-size: 1rem;
-    line-height: 2.2;
+    font-size: 1.15rem;
+    line-height: 2.6;
     white-space: pre-line;
-    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    font-family: 'Noto Nastaliq Urdu', 'Vazirmatn', Tahoma, sans-serif;
 }
 
 .poem-text .line {
     display: block;
     padding: 2px 0;
     transition: all 0.3s ease;
+}
+
+.poem-text .line:nth-child(odd) {
+    text-align: right;
+}
+
+.poem-text .line:nth-child(even) {
+    text-align: left;
 }
 
 .poem-text .line:hover {
@@ -1201,6 +1314,17 @@ img {
     .poem-text {
         font-size: 0.9rem;
         line-height: 2;
+    }
+
+    .album-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .album-header__cover {
+        width: 140px;
+        height: 140px;
     }
 }
 
