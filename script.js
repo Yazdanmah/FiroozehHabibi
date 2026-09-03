@@ -200,7 +200,7 @@ const ALBUMS = {
     1: {
         title: 'هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
-        cover: 'public/img/',
+        cover: 'public/img',
         description: 'روایت صوتی هفت خوان رستم در شاهنامه‌ی فردوسی.',
         playerPage: 'player/HaftKhan.html',
         tracks: [
@@ -216,7 +216,7 @@ const ALBUMS = {
     2: {
         title: 'رؤیاهای شهری',
         artist: 'خواننده: سارا احمدی',
-        cover: 'public/img/4956-450x450.jpg',
+        cover: 'public/img',
         description: 'روایتی صوتی از شب‌های شهر و رؤیاهایی که در آن جریان دارند.',
         playerPage: 'player-2.html',
         tracks: [
@@ -228,7 +228,7 @@ const ALBUMS = {
     3: {
         title: 'شب‌های بی‌خوابی',
         artist: 'خواننده: علی کریمی',
-        cover: 'public/img/4956-450x450.jpg',
+        cover: 'public/img',
         description: 'قطعاتی برای شب‌هایی که خواب به چشم نمی‌آید.',
         playerPage: 'player-3.html',
         tracks: [
@@ -240,7 +240,7 @@ const ALBUMS = {
     4: {
         title: 'طبیعت و صدا',
         artist: 'خواننده: نرگس محمدی',
-        cover: 'public/img/4956-450x450.jpg',
+        cover: 'public/img',
         description: 'ترکیبی از صداهای طبیعت و ملودی‌های آرام.',
         playerPage: 'player-4.html',
         tracks: [
@@ -252,7 +252,7 @@ const ALBUMS = {
     5: {
         title: 'ضربان قلب',
         artist: 'خواننده: حسین نوروزی',
-        cover: 'public/img/4956-450x450.jpg',
+        cover: 'public/img',
         description: 'قطعاتی پرانرژی با ریتمی که ضربان قلب را بالا می‌برد.',
         playerPage: 'player-5.html',
         tracks: [
@@ -264,7 +264,7 @@ const ALBUMS = {
     6: {
         title: 'سفر به یادها',
         artist: 'خواننده: زهرا موسوی',
-        cover: 'public/img/4956-450x450.jpg',
+        cover: 'public/img',
         description: 'سفری صوتی در دل خاطرات، همراه با کلامی نوستالژیک.',
         playerPage: 'player-6.html',
         tracks: [
