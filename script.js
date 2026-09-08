@@ -200,7 +200,7 @@ const ALBUMS = {
     1: {
         title: 'هفت خوان رستم',
         artist: 'شاهنامه فردوسی',
-        cover: 'public/img',
+        cover: 'public/img/InShot_20260907_221228877.jpg',
         description: 'روایت صوتی هفت خوان رستم در شاهنامه‌ی فردوسی.',
         playerPage: 'player/HaftKhan.html',
         tracks: [
