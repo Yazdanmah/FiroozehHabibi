@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Lalezar&display=swap');
 
 :root {
     /* رنگ اصلی: لاجوردی، الهام از تذهیب و نگارگری ایرانی */
@@ -845,13 +845,12 @@ img {
     background: var(--lapis);
     border-radius: 10px;
 }
-
 .poem-text {
     color: var(--ink-soft);
     font-size: 1.15rem;
     line-height: 2.6;
     white-space: pre-line;
-    font-family: 'Noto Nastaliq Urdu', 'Vazirmatn', Tahoma, sans-serif;
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
 }
 
 .poem-text .line {
